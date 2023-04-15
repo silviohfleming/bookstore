@@ -15,6 +15,8 @@ class TestProductViewSet(APITestCase):
 
     def setUp(self):
         self.user = UserFactory()
+        token = Token.objects.create(user=self.user)
+        token.save()
 
         self.product = ProductFactory(
             title="pro controller",
@@ -22,20 +24,32 @@ class TestProductViewSet(APITestCase):
         )
 
     def test_get_all_product(self):
+        token = Token.objects.get(user__username=self.user.username)
+
+        # import pdb
+        # pdb.set_trace()
+
+        self.client.credentials(HTTP_AUTHORIZATION='Token ' + token.key)
         response = self.client.get(reverse("product-list", kwargs={"version": "v1"}))
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        product_data = json.loads(response.content)[0]
-        # print(product_data)
+        product_data = json.loads(response.content)
 
-        self.assertEqual(product_data["title"], self.product.title)
-        self.assertEqual(product_data["price"], self.product.price)
-        self.assertEqual(product_data["active"], self.product.active)
+        self.assertEqual(product_data["results"][0]["title"], self.product.title)
+        self.assertEqual(product_data["results"][0]["price"], self.product.price)
+        self.assertEqual(product_data["results"][0]["active"], self.product.active)
 
     def test_create_product(self):
+        token = Token.objects.get(user__username=self.user.username)
+
+        # import pdb
+        # pdb.set_trace()
+
+        self.client.credentials(HTTP_AUTHORIZATION='Token ' + token.key)
         category = CategoryFactory()
         data = json.dumps({
-            "title": "notebook", "price": 800.00,
+            "title": "notebook",
+            "price": 800.00,
             "categories_id": [category.id]
         })
 
