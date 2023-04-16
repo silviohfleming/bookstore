@@ -29,7 +29,7 @@ class TestProductViewSet(APITestCase):
         # import pdb
         # pdb.set_trace()
 
-        self.client.credentials(HTTP_AUTHORIZATION='Token ' + token.key)
+        self.client.credentials(HTTP_AUTHORIZATION="Token " + token.key)
         response = self.client.get(reverse("product-list", kwargs={"version": "v1"}))
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
@@ -45,13 +45,11 @@ class TestProductViewSet(APITestCase):
         # import pdb
         # pdb.set_trace()
 
-        self.client.credentials(HTTP_AUTHORIZATION='Token ' + token.key)
+        self.client.credentials(HTTP_AUTHORIZATION="Token " + token.key)
         category = CategoryFactory()
-        data = json.dumps({
-            "title": "notebook",
-            "price": 800.00,
-            "categories_id": [category.id]
-        })
+        data = json.dumps(
+            {"title": "notebook", "price": 800.00, "categories_id": [category.id]}
+        )
 
         response = self.client.post(
             reverse("product-list", kwargs={"version": "v1"}),
