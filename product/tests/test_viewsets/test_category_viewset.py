@@ -25,11 +25,9 @@ class CategoryViewSet(APITestCase):
         # import pdb
         # pdb.set_trace()
 
-        self.client.credentials(HTTP_AUTHORIZATION='Token ' + token.key)
+        self.client.credentials(HTTP_AUTHORIZATION="Token " + token.key)
 
-        response = self.client.get(
-            reverse("category-list", kwargs={"version": "v1"})
-        )
+        response = self.client.get(reverse("category-list", kwargs={"version": "v1"}))
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         category_data = json.loads(response.content)
@@ -42,7 +40,7 @@ class CategoryViewSet(APITestCase):
         # import pdb
         # pdb.set_trace()
 
-        self.client.credentials(HTTP_AUTHORIZATION='Token ' + token.key)
+        self.client.credentials(HTTP_AUTHORIZATION="Token " + token.key)
         data = json.dumps({"title": "technology"})
 
         response = self.client.post(
