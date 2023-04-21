@@ -11,12 +11,12 @@ from product.serializers.category_serializer import CategorySerializer
 
 
 class CategoryViewSet(ModelViewSet):
-    authentication_classes = [
-        SessionAuthentication,
-        BasicAuthentication,
-        TokenAuthentication,
-    ]
-    permission_classes = [IsAuthenticated]
+    # authentication_classes = [
+    #     SessionAuthentication,
+    #     BasicAuthentication,
+    #     TokenAuthentication,
+    # ]
+    # permission_classes = [IsAuthenticated]
     serializer_class = CategorySerializer
 
     def get_queryset(self):
